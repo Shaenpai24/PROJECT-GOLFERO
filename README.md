@@ -13,6 +13,7 @@ A sophisticated top-down 3D golf game featuring realistic physics simulation and
 - [Development](#-development)
 
 ---
+## !DISCLAIMER ONLY WORKS FOR LINUX ONLY
 
 ## 🚀 Quick Start
 
@@ -29,7 +30,6 @@ Click "Manual Only" and enjoy the game!
 # Click "AI Demo" button
 
 # Terminal 2: Start AI brain
-source ~/bio_env/bin/activate
 python3 ai_golfer/ai_pipe_client.py
 ```
 

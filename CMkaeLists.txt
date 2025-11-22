@@ -1,0 +1,30 @@
+cmake_minimum_required(VERSION 3.20)
+project(golf_menu  C)
+
+set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD_REQUIRED ON)
+
+# ---------- Raylib ----------
+include(FetchContent)
+FetchContent_Declare(
+        raylib
+        GIT_REPOSITORY https://github.com/raysan5/raylib.git
+        GIT_TAG        5.0
+)
+FetchContent_MakeAvailable(raylib)
+
+# ---------- Our executable ----------
+add_executable(golf_menu
+        main_with_menu.c
+        main_win32.c      # TCP + console helpers for Windows
+)
+
+target_link_libraries(golf_menu PRIVATE raylib m pthread)
+target_compile_definitions(golf_menu PRIVATE $<$<BOOL:${WIN32}>:__WIN32>)
+target_include_directories(golf_menu PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+
+# Copy assets next to the EXE
+add_custom_command(TARGET golf_menu POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        ${CMAKE_CURRENT_SOURCE_DIR}/golf_map.png
+        $<TARGET_FILE_DIR:golf_menu>)
