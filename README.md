@@ -1,193 +1,212 @@
-# 🎮🏌️ Project Golfero – AI-Driven 3D Golf Simulation
 
-A hybrid Raylib + Python AI golf engine featuring hierarchical planning, surrogate physics, and CMA-ES optimization.
+# 🏎️⛳ Project Golfero – AI-Driven Golf Simulation  
+### *Where F1-grade engineering meets next-gen AI gameplay.*
 
-<img src="/mnt/data/843bb624-4986-4ff9-a5d0-72f0fe5c3d27.png" width="100%">
+<div align="center">
 
----
+![Golfero Badge](https://img.shields.io/badge/Project_Golfero-AI_Golf_Engine-22c55e?style=for-the-badge&logo=raylib&logoColor=white)
+![C/Raylib](https://img.shields.io/badge/C-Raylib_5.0-0ea5e9?style=flat&logo=c&logoColor=white)
+![Python](https://img.shields.io/badge/Python-AI%20Brain-8b5cf6?style=flat&logo=python&logoColor=white)
+![Linux Only](https://img.shields.io/badge/Linux-Only-eab308?style=flat&logo=linux&logoColor=white)
 
-## 📘 Table of Contents
-
-* [Overview](#overview)
-* [Architecture](#architecture)
-* [System Pipeline (Mermaid)](#system-pipeline-mermaid)
-* [Components](#components)
-* [Physics Engine](#physics-engine)
-* [AI System](#ai-system)
-* [IPC Communication](#ipc-communication)
-* [Controls](#controls)
-* [File Structure](#file-structure)
-* [Build & Run](#build--run)
-* [Development Notes](#development-notes)
-* [Troubleshooting](#troubleshooting)
-* [License](#license)
-* [Credits](#credits)
+### **A hybrid Raylib physics engine + Python AI golfer powered by CMA-ES and hierarchical planning.**
+</div>
 
 ---
 
-## Overview
-
-**Project Golfero** is a top-down 3D golf simulation built with **C/Raylib** and a powerful **Python AI golfer**.
-The AI performs high-level shot planning, optimization via **CMA-ES**, and uses a fast **surrogate physics** model to evaluate hundreds of trajectories before executing the best shot.
-
----
-
-## Architecture
-
-```
-┌───────────────────────────────────────────────────────────────────────┐
-│                               PROJECT GOLFERO                         │
-├───────────────────────────────────────────────────────────────────────┤
-│                                                                       │
-│   ┌───────────────────────────┐       Named Pipes       ┌───────────┐ │
-│   │     Raylib C Engine      │  <────────────────────→  │  Python   │ │
-│   │                           │  →────────────────────→  │   AI      │ │
-│   │ - Rendering               │                         │ (Planner + │ │
-│   │ - Physics                 │                         │ Optimizer) │ │
-│   │ - Shot Mechanics          │                         │           │ │
-│   └───────────────────────────┘                         └───────────┘ │
-│                                                                       │
-└───────────────────────────────────────────────────────────────────────┘
-```
+<div align="center">
+<img src="YOUR_GAMEPLAY_SCREENSHOT.png" width="90%">
+</div>
 
 ---
 
-## System Pipeline (Mermaid)
+## 🚀 What is Project Golfero?
+
+**Project Golfero** is a fully-simulated, high-precision golf engine with:
+
+- A **custom C/Raylib physics engine**
+- A **Python AI system** that thinks like a pro golfer
+- **Evolutionary optimization (CMA-ES)**
+- **Real-time IPC messaging** between C & Python
+- **Advanced wind, spin, and terrain modeling**
+- **Surrogate physics** for rapid AI evaluations
+
+This is not a toy project — it’s a **research-grade simulation** wrapped in **game-studio execution**.
+
+---
+
+## 🧬 Core System Overview
+
+<div align="center">
 
 ```mermaid
 flowchart LR
-    A[Game State from C Engine] --> B[High Level Planner\nDRIVE / CHIP / LOB / PUTT]
-    B --> C[Low-Level CMA-ES Optimizer]
-    C --> D[Surrogate Physics Evaluations\n200+ Candidates]
-    D --> E[Final Shot Parameters]
-    E --> F[Send to C Engine via Pipe]
+    A[C Engine<br/>Real-time Physics] <-- Pipes --> B[Python AI<br/>Planner + CMA-ES]
+    B --> C[Surrogate Physics<br/>100–500 Simulations]
+    C --> D[Shot Optimization]
+    D --> A
+    style A fill:#22c55e,stroke:#15803d,color:#fff
+    style B fill:#8b5cf6,stroke:#6d28d9,color:#fff
+    style C fill:#0ea5e9,stroke:#0369a1,color:#fff
+    style D fill:#f59e0b,stroke:#b45309,color:#fff
+````
+
+</div>
+
+---
+
+## ⚡ Feature Highlights
+
+### 🏎️ **F1-Inspired Precision Physics**
+
+* 60 FPS deterministic simulation
+* Magnus effect, drag, bounce, terrain friction
+* Multi-material course modeling (sand, forest, rough, green…)
+* Wind gust system with smoothing + gust prediction
+
+### 🧠 **AI Golfer with Strategic Intelligence**
+
+* High-level planner (Drive / Layup / Chip / Lob / Putt)
+* CMA-ES optimizer evaluating 200–500 candidate shots
+* Surrogate physics approximating trajectories 1000× faster
+* Hazard avoidance + terrain-aware heuristics
+* Wind compensation + landing zone selection
+
+### 🔌 **Ultra-Fast IPC Bridge**
+
+* Low-latency named pipes
+* Game → AI: Position, wind, terrain, strokes
+* AI → Game: Direction, angle, power, spin
+
+### 🎮 **Player Experience**
+
+* Smooth aiming system
+* Realistic spin controls
+* Visual trajectory indicators
+* Clean, responsive Raylib UI
+
+---
+
+## 🏗️ Architecture
+
+```
+┌──────────────────────────────────────────────────────────────┐
+│                          PROJECT GOLFERO                     │
+├──────────────────────────────────────────────────────────────┤
+│  ┌────────────────────────┐       ┌────────────────────────┐ │
+│  │   RAYLIB GAME ENGINE   │◄──────►│     PYTHON AI BRAIN   │ │
+│  │  (C, 60 FPS Physics)   │ Pipes  │ (Planner + CMA-ES +   │ │
+│  │                        │──────► │  Surrogate Simulator) │ │
+│  └────────────────────────┘       └────────────────────────┘ │
+│                                                              │
+└──────────────────────────────────────────────────────────────┘
 ```
 
----
+### 📦 Components
 
-## Components
+* **main_with_menu.c** → Physics, rendering, UI
+* **AI system (Python)** → `/ai_golfer/`
 
-### Raylib C Engine
-
-* 60 FPS physics
-* Realistic terrain interactions
-* Rendering + input
-* Menu system
-* IPC bridge
-
-### Python AI Brain
-
-* High-level shot strategy
-* CMA-ES optimization
-* Surrogate physics model
-* Wind + terrain compensation
+  * `high_level_planner.py`
+  * `low_level_optimizer.py`
+  * `surrogate_physics.py`
+  * `ai_pipe_client.py`
 
 ---
 
-## Physics Engine
+## 🎯 Physics Engine
 
-<img src="PHYSICS_DIAGRAM.png" width="70%">
-
-### Core Constants
+### 🔭 Simulation Constants
 
 ```c
 #define GRAVITY_ACCEL 800.0f
 #define DT 0.016f
 #define AIR_DRAG_COEF 1.6f
-#define MAX_WIND_STRENGTH 50.0f
 #define MAGNUS_COEF 0.0012f
 #define STOP_SPEED 2.0f
 ```
 
-### Physics Pipeline (ASCII)
+### 🧩 Full Pipeline (ASCII)
 
 ```
-[Start Frame]
-     |
-     v
-[Apply Gravity] ──→ [Update Position]
-     |
-     v
-Is Ball Airborne?
-     | Yes
-     v
-[Apply Wind + Drag + Magnus Spin]
-     |
-     v
-[Check Collision / Bounce]
-     |
-     v
-Is Ball Slow Enough?
-     | Yes
-     v
-[Stop Ball]
+Frame Start
+   ↓
+Apply Gravity
+   ↓
+Update Position
+   ↓
+If Airborne:
+    → Apply Drag
+    → Apply Wind
+    → Apply Magnus Spin
+   ↓
+If Hit Ground:
+    → Bounce
+    → Roll + Friction
+   ↓
+If Speed < Threshold:
+    → Stop Ball
 ```
 
-### Terrain Types
+### 🗺️ Terrain Model
 
-| Terrain      | Roll | Bounce | Launch | Effect    |
-| ------------ | ---- | ------ | ------ | --------- |
-| Fairway      | 0.96 | 0.60   | 1.00   | Standard  |
-| Smooth/Green | 0.98 | 0.75   | 1.05   | Fast roll |
-| Rough        | 0.80 | 0.55   | 0.85   | Slow      |
-| Sand         | 0.45 | 0.05   | 0.35   | Trap      |
-| Water        | 0.92 | 0.00   | 0.00   | Hazard    |
-| Forest       | 0.40 | 0.00   | 0.40   | Hard stop |
+| Terrain | Roll | Bounce | Launch | Notes     |
+| ------- | ---- | ------ | ------ | --------- |
+| Fairway | 0.96 | 0.60   | 1.00   | Standard  |
+| Green   | 0.98 | 0.75   | 1.05   | Fast roll |
+| Rough   | 0.80 | 0.55   | 0.85   | Slow      |
+| Sand    | 0.45 | 0.05   | 0.35   | Trap      |
+| Forest  | 0.40 | 0.00   | 0.40   | Solid     |
+| Water   | —    | —      | —      | Hazard    |
 
 ---
 
-## AI System
+## 🤖 AI System
 
-<img src="AI_DIAGRAM.png" width="100%">
-
-### High-Level Planner
+### 🧠 High-Level Strategy
 
 ```
-Distance < 30px   → PUTT
-Distance < 80px   → CHIP
-Distance < 150px  → LAYUP
-Distance > 150px  → DRIVE
+>150px   → Drive  
+80–150px → Layup  
+30–80px  → Chip  
+<30px    → Putt  
 ```
 
-* Hazard avoidance
-* Terrain-aware planning
-* Wind adjustment
-* Waypoint selection
-
-### Low-Level Optimizer (CMA-ES)
+### 🧮 CMA-ES Optimization
 
 Optimizes:
 
-* Direction angle
+* Direction
 * Launch angle
 * Power
 * SpinX
 * SpinY
 
-| Mode | Time  | Evaluations | Use       |
-| ---- | ----- | ----------- | --------- |
-| Fast | <0.1s | 1           | Demo      |
-| Full | 1–2s  | 200+        | Best play |
+### ⚡ Surrogate Physics
 
-### Surrogate Physics
-
-Fast trajectory model:
-
-* Simplified drag
-* Basic bounce
-* Terrain approx
-* Evaluates 200–500 candidates
+* Lightweight drag + bounce
+* Matches full engine patterns
+* 100–500 simulations per shot
+* Real-time performance
 
 ---
 
-## IPC Communication
+## 🔌 IPC Protocol
 
-### Pipes
+### Game → AI
 
-* `/tmp/golf_ai_pipe` – AI → C
-* `/tmp/golf_state_pipe` – C → AI
+```c
+struct GameStateMsg {
+    float ball_x, ball_y, ball_z;
+    float hole_x, hole_y;
+    float wind_x, wind_y, wind_strength;
+    int strokes;
+    bool stopped;
+    bool won;
+};
+```
 
-### AI Command Struct
+### AI → Game
 
 ```c
 struct AICommand {
@@ -200,22 +219,22 @@ struct AICommand {
 
 ---
 
-## Controls
+## 🎮 Controls
 
-| Control    | Action             |
-| ---------- | ------------------ |
-| Mouse Drag | Aim + Power        |
-| UP / DOWN  | Loft angle         |
-| W / S      | Backspin / Topspin |
-| A / D      | Left / Right spin  |
-| R          | Reset hole         |
-| ESC        | Menu               |
+| Input         | Action             |
+| ------------- | ------------------ |
+| Mouse Drag    | Aim + Power        |
+| Arrow Up/Down | Loft angle         |
+| W/S           | Backspin / Topspin |
+| A/D           | Left / Right spin  |
+| R             | Reset hole         |
+| ESC           | Menu               |
 
 ---
 
-## File Structure
+## 📂 File Structure
 
-```plaintext
+```
 Project_Golfero/
 ├── main_with_menu.c
 ├── golf_menu
@@ -223,28 +242,28 @@ Project_Golfero/
 ├── README.md
 └── ai_golfer/
     ├── ai_pipe_client.py
+    ├── surrogate_physics.py
     ├── high_level_planner.py
     ├── low_level_optimizer.py
-    ├── surrogate_physics.py
 ```
 
 ---
 
-## Build & Run
+## 🧪 Build & Run
 
-### Compile
+### 🏗️ Compile (Linux)
 
 ```
 gcc main_with_menu.c -o golf_menu -lraylib -lm -lpthread -ldl
 ```
 
-### Play
+### 🎮 Manual Mode
 
 ```
 ./golf_menu
 ```
 
-### AI Demo
+### 🤖 AI Demo
 
 ```
 # Terminal 1
@@ -256,31 +275,47 @@ python3 ai_golfer/ai_pipe_client.py
 
 ---
 
-## Development Notes
+## 🛠️ Development Notes
 
-* Add new terrains by modifying `getTerrainProps()`.
-* Adjust physics constants in `main_with_menu.c`.
-* Improve AI via CMA-ES parameters and planner thresholds.
-
----
-
-## Troubleshooting
-
-* If AI doesn't connect: ensure pipes exist (`ls /tmp/golf_*`).
-* Start Python *after* selecting AI Demo.
-* Use full CMA-ES for best accuracy.
+* Tune physics constants in `main_with_menu.c`
+* Add terrain via color-coded map regions
+* Modify CMA-ES parameters for better convergence
+* Adjust planner rules for style variations
 
 ---
 
-## License
+## 🧯 Troubleshooting
 
-Educational / Non-commercial.
+* **AI not connecting?**
+  Ensure pipes exist:
+
+  ```
+  ls /tmp/golf_*
+  ```
+
+* **Ball behaves oddly?**
+  Check terrain colors in `golf_map.png`.
+
+* **Slow AI?**
+  Switch to fast mode in optimizer.
 
 ---
 
-## Credits
+## 🏆 Credits
 
-* Physics Engine — Custom C
-* AI System — Python, CMA-ES
-* Graphics — Raylib
-* Architecture — Project Golfero
+<div align="center">
+
+### **Built with passion by:**
+
+### **Shashank • Dhanush • Akhil**
+
+</div>
+
+---
+
+<div align="center">
+
+## ⭐ If Project Golfero impressed you, consider starring the repo!
+
+</div>
+
