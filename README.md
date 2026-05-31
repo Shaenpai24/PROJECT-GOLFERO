@@ -1,7 +1,5 @@
 
 # 🏎️⛳ Project Golfero – AI-Driven Golf Simulation  
-### *Where F1-grade engineering meets next-gen AI gameplay.*
-
 <div align="center">
 
 ![Golfero Badge](https://img.shields.io/badge/Project_Golfero-AI_Golf_Engine-22c55e?style=for-the-badge&logo=raylib&logoColor=white)
